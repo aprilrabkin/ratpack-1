@@ -12,20 +12,45 @@ module Name
     configure do
       set :root, File.dirname(__FILE__)
       set :public_folder, 'public'
+      
+      ActiveRecord::Base.establish_connection(
+        :adapter  => 'postgresql',
+        :host     => "localhost",
+        :username => "blake",
+        :database => "mydb",
+        :encoding => 'utf8'
+      )
+
     end
 
     #database
-    set :database, "sqlite3:///database.db"
 
     #filters
-
+    @@people = [{:name => "ashley", :compliment => "you classy as fuck"}, {:name => "frantz", :compliment => "you're the best mafia"},
+      {:name => "steven", :compliment => "not so classy"}, {:name => "george", :compliment => "you're a great dad"}, {:name => "natacha", :compliment => "you're a great mom"}]
     #routes
-    get '/' do
-      erb :index
+
+    # def self.get_people
+    #   @@people
+    # end
+
+    get '/person/:pickle' do
+      # /person/0
+      # params = {}
+      # params[:name] = some_value_typed_in_the_path
+      @person = Person.new(@@people[params[:pickle].to_i])
+      erb :compliment
     end
 
     #helpers
     helpers do
+
+      def give_compliment(person)
+        "#{person[:name]} #{person[:compliment]}"
+      end
+      # def get_people
+      #   @@people
+      # end
       def partial(file_name)
         erb file_name, :layout => false
       end
