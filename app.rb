@@ -26,19 +26,19 @@ module Name
     #database
 
     #filters
-    @@people = [{:name => "ashley", :compliment => "you classy as fuck"}, {:name => "frantz", :compliment => "you're the best mafia"},
-      {:name => "steven", :compliment => "not so classy"}, {:name => "george", :compliment => "you're a great dad"}, {:name => "natacha", :compliment => "you're a great mom"}]
-    #routes
+    # @@people = [{:name => "ashley", :compliment => "you classy as fuck"}, {:name => "frantz", :compliment => "you're the best mafia"},
+    #   {:name => "steven", :compliment => "not so classy"}, {:name => "george", :compliment => "you're a great dad"}, {:name => "natacha", :compliment => "you're a great mom"}]
+    # #routes
 
     # def self.get_people
     #   @@people
     # end
 
-    get '/person/:pickle' do
+    get '/person/:index' do
       # /person/0
       # params = {}
-      # params[:name] = some_value_typed_in_the_path
-      @person = Person.new(@@people[params[:pickle].to_i])
+      # params[:index] = some_value_typed_in_the_path
+      @person = Person.find_by_id(params[:index])
       erb :compliment
     end
 
